@@ -1,0 +1,188 @@
+{
+  "info": {
+    "name": "Transactional Ledger Service",
+    "_postman_id": "ledger-service-collection",
+    "description": "Postman Collection for Ledger Service Assignment (Node.js + PostgreSQL)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "Create Account (USD)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"owner_id\":\"user1\",\"currency\":\"USD\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/accounts",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["accounts"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Account (INR)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"owner_id\":\"user2\",\"currency\":\"INR\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/accounts",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["accounts"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Account Balance",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/accounts/{{accountA_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["accounts", "{{accountA_id}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transaction History (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/accounts/{{accountA_id}}/transactions?page=1&limit=20",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["accounts", "{{accountA_id}}", "transactions"],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "20" }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deposit (Credit)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"account_id\":\"{{accountA_id}}\",\"type\":\"credit\",\"amount\":10.00,\"currency\":\"USD\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/transactions",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["transactions"]
+        }
+      }
+    },
+    {
+      "name": "Withdraw (Debit)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"account_id\":\"{{accountA_id}}\",\"type\":\"debit\",\"amount\":5.00,\"currency\":\"USD\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/transactions",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["transactions"]
+        }
+      }
+    },
+    {
+      "name": "Internal Transfer (A → B)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Idempotency-Key", "value": "{{transfer_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"from_account_id\":\"{{accountA_id}}\",\"to_account_id\":\"{{accountB_id}}\",\"amount\":2.00,\"currency\":\"USD\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/transfers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["transfers"]
+        }
+      }
+    },
+    {
+      "name": "Internal Transfer (Idempotency Retry)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Idempotency-Key", "value": "{{transfer_key}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"from_account_id\":\"{{accountA_id}}\",\"to_account_id\":\"{{accountB_id}}\",\"amount\":2.00,\"currency\":\"USD\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/transfers",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["transfers"]
+        }
+      }
+    }
+  ],
+  "event": [],
+  "variable": [
+    { "key": "accountA_id", "value": "" },
+    { "key": "accountB_id", "value": "" },
+    { "key": "transfer_key", "value": "IDEMP-TEST-123" }
+  ]
+}
