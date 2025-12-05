@@ -1,0 +1,36 @@
+{
+  "name": "ledger-service",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "Simplified transactional ledger service (Node + TypeScript + Postgres)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "migrate": "node ./dist/migrate.js || node ./src/migrate.js",
+    "test": "jest --runInBand"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.16.3",
+    "supertest": "^7.1.4",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.19",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.5.0",
+    "@types/pg": "^8.15.6",
+    "@types/uuid": "^9.0.2",
+    "axios": "^1.4.0",
+    "jest": "^29.6.1",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.2"
+  }
+}
